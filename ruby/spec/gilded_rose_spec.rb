@@ -10,10 +10,16 @@ describe GildedRose do
     end
 
     context "Aged brie" do
-      it "increases the quality by 1" do
+      it "increases the quality by 1 when sell_in is above 0" do
         items = [Item.new("Aged Brie", 10, 4)]
         GildedRose.new(items).update_quality()
         expect(items[0].quality).to eq 5
+      end
+
+      it "increases the quality by 2 when sell_in is 0" do
+        items = [Item.new("Aged Brie", 0, 4)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 6
       end
 
       it "decreases the sell_in by 1" do
@@ -21,6 +27,7 @@ describe GildedRose do
         GildedRose.new(items).update_quality()
         expect(items[0].sell_in).to eq 9
       end
+
     end
 
     context "Sulfuras, Hand of Ragnaros" do
