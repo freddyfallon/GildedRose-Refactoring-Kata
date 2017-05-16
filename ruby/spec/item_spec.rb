@@ -1,4 +1,5 @@
 require 'item'
+
 describe Item do
   describe "#to_s" do
     it "should produce strings" do
