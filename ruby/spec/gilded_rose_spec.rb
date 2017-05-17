@@ -28,6 +28,12 @@ describe GildedRose do
         expect(items[0].sell_in).to eq 9
       end
 
+      it "cannot increase quality above 50" do
+        items = [Item.new("Aged Brie", 10, 50)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 50
+      end
+
     end
 
     context "Sulfuras, Hand of Ragnaros" do
@@ -63,6 +69,12 @@ describe GildedRose do
         expect(items[0].quality).to eq 21
       end
 
+      it "cannot increase quality above 50" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 11, 50)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 50
+      end
+
       it "sets quality to 0 with 0 days left" do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)]
         GildedRose.new(items).update_quality()
@@ -81,6 +93,12 @@ describe GildedRose do
         items = [Item.new("+5 Dexterity Vest", 10, 20)]
         GildedRose.new(items).update_quality()
         expect(items[0].quality).to eq 19
+      end
+
+      it "cannot decrease quality below 0" do
+        items = [Item.new("+5 Dexterity Vest", 10, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 0
       end
 
       it "decreases sell_in by one" do

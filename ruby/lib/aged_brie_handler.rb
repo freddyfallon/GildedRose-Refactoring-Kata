@@ -1,6 +1,8 @@
 class AgedBrieHandler
   def update_quality(item)
-    if item.sell_in > 0
+    if item.quality == 50
+      item.sell_in
+    elsif item.sell_in > 0
       item.quality += 1
     else
       item.quality += 2

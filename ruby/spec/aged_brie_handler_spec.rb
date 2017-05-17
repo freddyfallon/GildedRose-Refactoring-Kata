@@ -13,6 +13,12 @@ describe AgedBrieHandler do
       AgedBrieHandler.new.update_quality(item)
       expect(item.quality).to eq 6
     end
+
+    it "cannot increase quality above 50" do
+      item = Item.new("Aged Brie", 10, 50)
+      AgedBrieHandler.new.update_quality(item)
+      expect(item.quality).to eq 50
+    end
   end
 
   describe '#update_sell_in' do

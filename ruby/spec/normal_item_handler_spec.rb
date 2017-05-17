@@ -13,6 +13,12 @@ describe NormalItemHandler do
       NormalItemHandler.new.update_quality(item)
       expect(item.quality).to eq 8
     end
+
+    it "cannot decrease quality below 0" do
+      item = Item.new("+5 Dexterity Vest", 10, 0)
+      NormalItemHandler.new.update_quality(item)
+      expect(item.quality).to eq 0
+    end
   end
 
   describe "#update_sell_in" do

@@ -24,6 +24,12 @@ describe BackstagePassHandler do
       BackstagePassHandler.new.update_quality(item)
       expect(item.quality).to eq 0
     end
+
+    it "cannot increase quality above 50" do
+      item = Item.new("Backstage passes to a TAFKAL80ETC concert", 11, 50)
+      BackstagePassHandler.new.update_quality(item)
+      expect(item.quality).to eq 50
+    end
   end
 
   describe '#update_sell_in' do

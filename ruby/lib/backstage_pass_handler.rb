@@ -1,6 +1,8 @@
 class BackstagePassHandler
   def update_quality(item)
-    if item.sell_in < 1
+    if item.quality == 50
+      item.quality
+    elsif item.sell_in < 1
       item.quality = 0
     elsif item.sell_in > 10
       item.quality += 1
