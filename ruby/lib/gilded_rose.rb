@@ -1,55 +1,35 @@
 require_relative 'item'
 
 class GildedRose
+  attr_reader :conjured_handler, :backstage_pass_handler,
+  :sulfuras_handler, :aged_brie_handler, :normal_item_handler
 
   def initialize(items)
     @items = items
+    @conjured_handler = ConjuredHandler.new
+    @backstage_pass_handler = BackstagePassHandler.new
+    @sulfuras_handler = SulfurasHandler.new
+    @aged_brie_handler = AgedBrieHandler.new
+    @normal_item_handler = NormalItemHandler.new
   end
 
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
+      if item.name.downcase.include? "brie"
+        aged_brie_handler.update_quality(item)
+        aged_brie_handler.update_sell_in(item)
+      elsif item.name.downcase.include? "sulfuras"
+        sulfuras_handler.update_quality(item)
+        sulfuras_handler.update_sell_in(item)
+      elsif item.name.downcase.include? "backstage"
+        backstage_pass_handler.update_quality(item)
+        backstage_pass_handler.update_sell_in(item)
+      elsif item.name.downcase.include? "conjured"
+        conjured_handler.update_quality(item)
+        conjured_handler.update_sell_in(item)
       else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
+        normal_item_handler.update_quality(item)
+        normal_item_handler.update_sell_in(item)
       end
     end
   end
